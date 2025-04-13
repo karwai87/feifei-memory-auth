@@ -8,14 +8,10 @@ app.secret_key = os.urandom(24)
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
-# OAuth 配置
+# ✅ OAuth 正确配置（只保留一次）
 CLIENT_SECRETS_FILE = "client_secret_299080378375-65i10pab08t2kbjr75fau1o0mn0aac4j.apps.googleusercontent.com.json"
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 REDIRECT_URI = "https://feifei-memory-auth-production.up.railway.app/oauth2callback"
-
-# 仅开发环境允许 HTTP（生产建议 HTTPS）
-if os.environ.get("FLASK_ENV") == "development":
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 @app.route("/auth")
 def auth():
@@ -47,10 +43,9 @@ def callback():
     try:
         flow.fetch_token(authorization_response=request.url)
         credentials = flow.credentials
-        # 👉 你可以在这里存储 credentials.to_json() 以备后续 API 调用
-        return "✅ 授权成功！您现在可以关闭此页面。"
+        return "授权成功！您现在可以关闭此页面。"
     except Exception as e:
-        return f"❌ 授权失败: {str(e)}"
+        return f"授权失败: {str(e)}"
 
 @app.route("/")
 def home():
