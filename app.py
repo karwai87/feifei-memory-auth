@@ -53,3 +53,5 @@ def home():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
+if os.environ.get("FLASK_ENV") == "development" and not os.environ.get("RAILWAY_ENVIRONMENT"):
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
