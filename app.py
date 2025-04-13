@@ -8,13 +8,6 @@ app.secret_key = os.urandom(24)
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
-# 环境判断：开发模式下允许非 HTTPS（本地测试才允许）
-if (
-    os.environ.get("FLASK_ENV") == "development"
-    or os.environ.get("OAUTHLIB_INSECURE_TRANSPORT") == "1"
-):
-    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-
 # Google OAuth 配置
 CLIENT_SECRETS_FILE = "client_secret_299080378375-65i10pab08t2kbjr75fau1o0mn0aac4j.apps.googleusercontent.com.json"
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
@@ -59,5 +52,6 @@ def home():
     return "欢迎来到妃妃记忆系统 - 授权请访问 /auth"
 
 if __name__ == "__main__":
+    # 禁用 HTTP 模式，仅允许 HTTPS
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
     app.run(host="0.0.0.0", port=8080)
