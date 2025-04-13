@@ -59,4 +59,5 @@ def home():
     return "欢迎来到妃妃记忆系统 - 授权请访问 /auth"
 
 if __name__ == "__main__":
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "0"
     app.run(host="0.0.0.0", port=8080)
